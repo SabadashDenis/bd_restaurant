@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bd_restaurant.View.Visitor.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,23 @@ namespace bd_restaurant.View
         public VisitorWindow()
         {
             InitializeComponent();
+
+            MainFrame.Content = new Dishes();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new Dishes();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new Order();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new Profile();
         }
     }
 }

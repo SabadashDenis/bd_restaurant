@@ -1,0 +1,18 @@
+﻿<Window x:Class="bd_restaurant.View.VisitorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:bd_restaurant.View"
+        mc:Ignorable="d"
+        Title="Restaurant" WindowState="Maximized"  d:DesignHeight="800" d:DesignWidth="1600">
+    <Grid>
+        <Frame x:Name="MainFrame" Margin="0,0,0,100" NavigationUIVisibility="Hidden"/>
+
+        <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Bottom">
+            <Button Content="Dishes" Width="520" Click="Button_Click"/>
+            <Button Content="Order" Width="520" Click="Button_Click_1"/>
+            <Button Content="Profile" Width="520" Click="Button_Click_2"/>
+        </StackPanel>
+    </Grid>
+</Window>

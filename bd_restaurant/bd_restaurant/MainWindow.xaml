@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:bd_restaurant"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized" HorizontalAlignment="Center" VerticalAlignment="Center"
-        d:DesignHeight="850" d:DesignWidth="1600">
+        d:DesignHeight="800" d:DesignWidth="1600">
 
     <Border CornerRadius="12">
         <Border CornerRadius="10"                    
