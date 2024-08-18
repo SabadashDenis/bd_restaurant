@@ -15,12 +15,13 @@ using System.Windows.Shapes;
 namespace bd_restaurant.View
 {
     /// <summary>
-    /// Логика взаимодействия для LoginView.xaml
+    /// Логика взаимодействия для VisitorWindow.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class VisitorWindow : Window
     {
-        public LoginView()
+        public VisitorWindow()
         {
+            InitializeComponent();
         }
     }
 }

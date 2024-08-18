@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bd_restaurant.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,13 @@ namespace bd_restaurant
     {
         public MainWindow()
         {
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            VisitorWindow visitorWindow = new VisitorWindow();
+            visitorWindow.Show();
+            Hide();
         }
     }
 }

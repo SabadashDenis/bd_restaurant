@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:bd_restaurant"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800">
+        Title="MainWindow" WindowState="Maximized" HorizontalAlignment="Center" VerticalAlignment="Center"
+        d:DesignHeight="850" d:DesignWidth="1600">
 
     <Border CornerRadius="12">
         <Border CornerRadius="10"                    
@@ -36,7 +37,7 @@
                 <StackPanel Width="220"
                             Grid.Row="1"
                             Orientation="Vertical"
-                            Margin="0,35,0,0">
+                            Margin="0,150,0,0">
 
                     <Image Source="E:\Fork\bd_restaurant\bd_restaurant\bd_restaurant\Images\restaurant-logo.png"
                            Width="100" Height="100"/>
@@ -110,7 +111,7 @@
                             FontSize="12"
                             FontFamily="Montserrat"
                             Cursor="Hand"                           
-                            Margin="0,50,0,0">
+                            Margin="0,50,0,0" Click="btnLogin_Click">
 
                         <Button.Style>
                             <Style TargetType="Button">
