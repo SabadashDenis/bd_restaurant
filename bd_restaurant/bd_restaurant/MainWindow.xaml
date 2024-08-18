@@ -41,21 +41,12 @@
                     <Image Source="E:\Fork\bd_restaurant\bd_restaurant\bd_restaurant\Images\restaurant-logo.png"
                            Width="100" Height="100"/>
 
-                    <TextBlock Text="RJ CODE"
+                    <TextBlock Text="Restaurant"
                                Foreground="White"
                                FontSize="25"
                                FontWeight="Medium"
                                FontFamily="Montserrat"
                                HorizontalAlignment="Center"/>
-
-                    <TextBlock Text="Learning to code is useful no matter what your career ambitions are."
-                               Foreground="LightGray"
-                               FontSize="12"
-                               FontWeight="Medium"
-                               FontFamily="Montserrat"
-                               TextWrapping="Wrap"
-                               TextAlignment="Center"
-                               Margin="0,5,0,0"/>
 
 
                     <TextBlock Text="Username"
@@ -148,13 +139,13 @@
                                 HorizontalAlignment="Center"
                                 Margin="0,15,0,0">
 
-                        <TextBlock Text="Forgot Password?"
+                        <TextBlock Text="Don't have account?"
                                Foreground="DarkGray"
                                FontSize="12"
                                FontWeight="Medium"
                                FontFamily="Montserrat"/>
 
-                        <TextBlock Text="Reset"
+                        <TextBlock Text="Register"
                                Foreground="White"
                                FontSize="12"
                                FontWeight="Medium"
