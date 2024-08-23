@@ -8,7 +8,34 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Order">
 
-    <Grid>
-        <Label Content="Order" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
+
+    <Border CornerRadius="12" Margin="0,0,0,-10">
+        <Border CornerRadius="10"                    
+            BorderThickness="2"
+            Opacity="0.95">
+
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+
+
+            <Grid Margin="50">
+                <Label Margin="0, -50, 0 ,0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <DataGrid Background="Transparent" Foreground="Violet" FontSize="20" FontWeight="Bold" d:ItemsSource="{d:SampleData ItemCount=10}">
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Border>
 </Page>
