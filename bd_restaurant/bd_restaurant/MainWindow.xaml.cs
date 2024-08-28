@@ -1,4 +1,5 @@
-﻿using bd_restaurant.View;
+﻿using bd_restaurant.Scripts;
+using bd_restaurant.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,13 @@ namespace bd_restaurant
     {
         public MainWindow()
         {
+            TestDB();
+        }
+
+        private async Task TestDB()
+        {
+            await RestaurantSQLConnection.ConnectDB();
+            var c = RestaurantSQLConnection.GetCustomers();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
