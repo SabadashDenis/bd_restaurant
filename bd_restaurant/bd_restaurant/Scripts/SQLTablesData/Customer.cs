@@ -33,7 +33,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
 
         public override string ToString()
         {
-            return $"CustomerID: {customerId}\nTableID: {tableId}\nName:{name}\nPhone: {phone}";
+            return $"CustomerID: {customerId}\nTableID: {tableId}\nName: {name}\nPhone: {phone}";
         }
     }
 }
