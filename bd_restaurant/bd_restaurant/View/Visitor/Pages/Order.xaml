@@ -33,7 +33,12 @@
 
             <Grid Margin="50">
                 <Label Margin="0, -50, 0 ,0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <DataGrid Background="Transparent" Foreground="Violet" FontSize="20" FontWeight="Bold" d:ItemsSource="{d:SampleData ItemCount=10}">
+                <DataGrid x:Name="orderDataGrid" Background="Transparent" Foreground="Violet" FontSize="20" FontWeight="Bold" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="CustomerId" Binding="{Binding CustomerId}" Width="*" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" />
+                    </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </Border>

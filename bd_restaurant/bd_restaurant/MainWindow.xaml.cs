@@ -24,13 +24,13 @@ namespace bd_restaurant
     {
         public MainWindow()
         {
-            TestDB();
+            ConnectDB();
         }
 
-        private async Task TestDB()
+        private async Task ConnectDB()
         {
             await RestaurantSQLConnection.ConnectDB();
-            var c = RestaurantSQLConnection.GetCustomers();
+
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)

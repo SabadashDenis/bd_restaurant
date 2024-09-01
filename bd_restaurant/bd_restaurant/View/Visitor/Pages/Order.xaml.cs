@@ -20,6 +20,7 @@ namespace bd_restaurant.View.Visitor.Pages
     /// </summary>
     public partial class Order : Page
     {
+
         public Order()
         {
             InitializeComponent();

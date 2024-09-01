@@ -1,4 +1,5 @@
-﻿using bd_restaurant.View.Visitor.Pages;
+﻿using bd_restaurant.Scripts;
+using bd_restaurant.View.Visitor.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,12 @@ namespace bd_restaurant.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Order();
+            var orderPage = new Order();
+
+            MainFrame.Content = orderPage;
+            var customers = RestaurantSQLConnection.GetCustomers();
+            orderPage.orderDataGrid.ItemsSource = customers;
+
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

@@ -51,11 +51,10 @@ namespace bd_restaurant.Scripts
                         while (dataReader.Read())
                         {
                             int customerId = (int)dataReader[Customer.SQL_CustomerId];
-                            int tableId = (int)dataReader[Customer.SQL_TableId];
                             string name = dataReader[Customer.SQL_Name].ToString() ?? String.Empty;
                             string phone = dataReader[Customer.SQL_Phone].ToString() ?? String.Empty;
 
-                            var customer = new Customer(customerId, tableId, name, phone);
+                            var customer = new Customer(customerId, name, phone);
 
                             customers.Add(customer);
 
