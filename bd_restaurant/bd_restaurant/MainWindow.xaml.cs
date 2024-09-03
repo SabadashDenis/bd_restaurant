@@ -1,5 +1,6 @@
 ﻿using bd_restaurant.Scripts;
 using bd_restaurant.View;
+using bd_restaurant.View.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,38 @@ namespace bd_restaurant
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            VisitorWindow visitorWindow = new VisitorWindow();
-            visitorWindow.Show();
-            Hide();
+            ValidateUser();
+        }
+
+        private void ValidateUser()
+        {
+            var userLogin = txtUser.Text;
+            var userPassword = txtPass.Password;
+
+            if (RestaurantSQLConnection.ValidateCredentials(txtUser.Text, txtPass.Password))
+            {
+                if (RestaurantSQLConnection.IsCustomer(txtUser.Text))
+                {
+                    VisitorWindow visitorWindow = new VisitorWindow();
+                    visitorWindow.Show();
+                    Hide();
+                }
+                else if (RestaurantSQLConnection.IsStaff(txtUser.Text))
+                {
+                    StaffWindow staffWindow = new StaffWindow();
+                    staffWindow.Show();
+                    Hide();
+                }
+            }
+            else
+            {
+                txtPass.BorderBrush = Brushes.Red;
+                txtUser.BorderBrush = Brushes.Red;
+
+                txtPass.Password = String.Empty;
+            }
+
+
         }
     }
 }
