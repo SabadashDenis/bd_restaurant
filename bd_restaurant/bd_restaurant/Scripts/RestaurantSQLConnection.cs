@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,8 @@ namespace bd_restaurant.Scripts
         private static readonly string StaffExistsRequest = "SELECT dbo.CheckStaffExists(@Login)";
 
         private static readonly string ValidateUser = "SELECT dbo.CheckUserCredentials(@Login, @Password)";
+
+        private static readonly string CustomerLastOrderDetails = "SELECT * FROM dbo.GetLastOrderDetailsByCustomer(@CustomerID)";
 
         #endregion
 
@@ -76,7 +79,7 @@ namespace bd_restaurant.Scripts
                     }
                 }
             }
-            catch(SqlException ex)
+            catch (SqlException ex)
             {
                 Trace.WriteLine($"[SQL] Exception: {ex.Message}");
             }
@@ -147,6 +150,49 @@ namespace bd_restaurant.Scripts
             }
 
             return false;
+        }
+
+        public static List<OrderDetail> GetLastOrderInfo(int customerId)
+        {
+            List<OrderDetail> orderDetails = new();
+            DataTable dataTable = new DataTable();
+
+            SqlCommand command = new SqlCommand(CustomerLastOrderDetails, connection);
+            command.Parameters.AddWithValue("@CustomerID", customerId);
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader != null)
+                    {
+                        Trace.WriteLine($"[SQL] Get last order details\n{Divider}");
+
+                        while (dataReader.Read())
+                        {
+                            int orderId = (int)dataReader[OrderDetail.SQL_OrderID];
+                            int foodId = (int)dataReader[OrderDetail.SQL_FoodID];
+                            string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? String.Empty;
+                            int quantity = (int)dataReader[OrderDetail.SQL_Quantity];
+                            decimal itemPrice = (decimal)dataReader[OrderDetail.SQL_ItemPrice];
+                            decimal totalPrice = (decimal)dataReader[OrderDetail.SQL_TotalPrice];
+
+                            var orderDetail = new OrderDetail(orderId, foodId, foodName, quantity, (float)itemPrice, (float)totalPrice);
+
+                            orderDetails.Add(orderDetail);
+
+                            Trace.WriteLine($"{orderDetail.ToString()}\n{Divider}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+
+            return orderDetails;
         }
     }
 }

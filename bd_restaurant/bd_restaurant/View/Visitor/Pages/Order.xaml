@@ -54,9 +54,13 @@
                         </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="CustomerId" Binding="{Binding CustomerId}" Width="*" />
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="*" />
+                        <DataGridTextColumn Header="OrderID" Binding="{Binding OrderId}" Width="*" />
+                        <DataGridTextColumn Header="FoodID" Binding="{Binding FoodId}" Width="*" />
+                        <DataGridTextColumn Header="Foodname" Binding="{Binding FoodName}" Width="*" />
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*" />
+                        <DataGridTextColumn Header="ItemPrice" Binding="{Binding ItemPrice}" Width="*" />
+                        <DataGridTextColumn Header="TotalPrice" Binding="{Binding TotalPrice}" Width="*" />
+
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

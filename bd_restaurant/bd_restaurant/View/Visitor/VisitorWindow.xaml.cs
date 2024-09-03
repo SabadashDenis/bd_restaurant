@@ -38,8 +38,8 @@ namespace bd_restaurant.View
             var orderPage = new Order();
 
             MainFrame.Content = orderPage;
-            var customers = RestaurantSQLConnection.GetCustomers();
-            orderPage.orderDataGrid.ItemsSource = customers;
+            var orderDetails = RestaurantSQLConnection.GetLastOrderInfo(1);
+            orderPage.orderDataGrid.ItemsSource = orderDetails;
 
         }
 
