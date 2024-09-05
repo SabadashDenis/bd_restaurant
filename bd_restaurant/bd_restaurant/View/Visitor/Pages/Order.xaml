@@ -31,36 +31,48 @@
 
 
 
-            <Grid Margin="50">
-                <Label Margin="0, -50, 0, 0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Grid Margin="50, 75, 50, 50">
+                <Label Margin="0, -75, 0, 0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 <DataGrid x:Name="orderDataGrid" Background="Transparent" Foreground="Violet" FontSize="20" FontWeight="Bold" AutoGenerateColumns="False" 
-              BorderThickness="0" 
-              HeadersVisibility="Column"
-              GridLinesVisibility="None">
+          BorderThickness="0" 
+          HeadersVisibility="None" GridLinesVisibility="None" Margin="0,0,10,0">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridRow">
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Margin" Value="0,5"/>
                         </Style>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
                             <Setter Property="BorderThickness" Value="0"/>
                         </Style>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="BorderBrush" Value="Transparent"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                        </Style>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="OrderID" Binding="{Binding OrderId}" Width="*" />
-                        <DataGridTextColumn Header="FoodID" Binding="{Binding FoodId}" Width="*" />
-                        <DataGridTextColumn Header="Foodname" Binding="{Binding FoodName}" Width="*" />
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="*" />
-                        <DataGridTextColumn Header="ItemPrice" Binding="{Binding ItemPrice}" Width="*" />
-                        <DataGridTextColumn Header="TotalPrice" Binding="{Binding TotalPrice}" Width="*" />
-
+                        <DataGridTextColumn Binding="{Binding FoodName}" Width="*" />
+                        <DataGridTemplateColumn Width="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding GetQuantity}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ItemPrice}" HorizontalAlignment="Center" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="30" Height="30" Click="RemoveItem_Click">
+                                        <Image Source="E:\Fork\bd_restaurant\bd_restaurant\bd_restaurant\Images\trash-icon.png" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

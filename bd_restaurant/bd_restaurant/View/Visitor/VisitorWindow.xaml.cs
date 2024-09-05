@@ -36,11 +36,7 @@ namespace bd_restaurant.View
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var orderPage = new Order();
-
             MainFrame.Content = orderPage;
-            var orderDetails = RestaurantSQLConnection.GetLastOrderInfo(1);
-            orderPage.orderDataGrid.ItemsSource = orderDetails;
-
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
