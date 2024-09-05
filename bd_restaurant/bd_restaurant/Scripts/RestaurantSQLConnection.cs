@@ -30,6 +30,8 @@ namespace bd_restaurant.Scripts
 
         private static readonly string ValidateUser = "SELECT dbo.CheckUserCredentials(@Login, @Password)";
 
+        private static readonly string DeleteOrderitem = "DeleteOrderItem";
+
         private static readonly string CustomerLastOrderDetails = "SELECT * FROM dbo.GetLastOrderDetailsByCustomer(@CustomerID)";
 
         #endregion
@@ -170,6 +172,7 @@ namespace bd_restaurant.Scripts
 
                         while (dataReader.Read())
                         {
+                            int id = (int)dataReader[OrderDetail.SQL_OrderItemID];
                             int orderId = (int)dataReader[OrderDetail.SQL_OrderID];
                             int foodId = (int)dataReader[OrderDetail.SQL_FoodID];
                             string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? String.Empty;
@@ -177,7 +180,7 @@ namespace bd_restaurant.Scripts
                             decimal itemPrice = (decimal)dataReader[OrderDetail.SQL_ItemPrice];
                             decimal totalPrice = (decimal)dataReader[OrderDetail.SQL_TotalPrice];
 
-                            var orderDetail = new OrderDetail(orderId, foodId, foodName, quantity, (float)itemPrice, (float)totalPrice);
+                            var orderDetail = new OrderDetail(id, orderId, foodId, foodName, quantity, (float)itemPrice, (float)totalPrice);
 
                             orderDetails.Add(orderDetail);
 
@@ -193,6 +196,25 @@ namespace bd_restaurant.Scripts
 
 
             return orderDetails;
+        }
+
+        public static void DeleteOrderItem(int orderItemId)
+        {
+            using (SqlCommand command = new SqlCommand(DeleteOrderitem, connection))
+            {
+                try
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@OrderItemId", orderItemId);
+                    command.ExecuteNonQuery();
+
+                    Trace.WriteLine($"[SQL] Delete order item => ID[{orderItemId}]\n{Divider}");
+                }
+                catch (SqlException ex)
+                {
+                    Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+                }
+            }
         }
     }
 }

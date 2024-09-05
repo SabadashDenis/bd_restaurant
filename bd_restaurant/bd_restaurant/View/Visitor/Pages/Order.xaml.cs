@@ -2,6 +2,7 @@
 using bd_restaurant.Scripts.SQLTablesData;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,25 +29,30 @@ namespace bd_restaurant.View.Visitor.Pages
         {
             InitializeComponent();
 
+        }
+
+        private void SetupTableData()
+        {
+
             _orderDetails = RestaurantSQLConnection.GetLastOrderInfo(1);
             orderDataGrid.ItemsSource = _orderDetails;
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            // Получаем кнопку, на которую нажали
             Button button = sender as Button;
             if (button != null)
             {
-                // Получаем данные о строке
-                var order = button.DataContext as OrderDetail; // Замените YourDataType на ваш тип данных
+                var order = button.DataContext as OrderDetail;
                 if (order != null)
                 {
-                    // Здесь вы можете обработать удаление
-                    // Например, вызовите метод для удаления элемента из коллекции
                     _orderDetails.Remove(order);
+                    RestaurantSQLConnection.DeleteOrderItem(order.OrderItemId);
+                    Trace.WriteLine($"[Order Page] Delete OrderDetail Row {order.FoodName}\n");
                 }
             }
+
+            SetupTableData();
         }
     }
 }

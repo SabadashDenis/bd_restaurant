@@ -8,6 +8,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
 {
     public class OrderDetail
     {
+        public static readonly string SQL_OrderItemID = "ID";
         public static readonly string SQL_OrderID = "OrderID";
         public static readonly string SQL_FoodID = "FoodID";
         public static readonly string SQL_FoodName = "FoodName";
@@ -15,6 +16,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
         public static readonly string SQL_ItemPrice = "ItemPrice";
         public static readonly string SQL_TotalPrice = "TotalPrice";
 
+        private int orderItemId;
         private int orderId;
         private int foodId;
         private string foodName;
@@ -24,7 +26,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
 
         public string GetQuantity => $"{quantity} шт.";
 
-
+        public int OrderItemId => orderItemId;
         public int OrderId => orderId;
         public int FoodId => foodId;
         public string FoodName => foodName;
@@ -32,8 +34,9 @@ namespace bd_restaurant.Scripts.SQLTablesData
         public float ItemPrice => itemPrice;
         public float TotalPrice => totalPrice;
 
-        public OrderDetail(int orderId, int foodId, string foodName, int quantity, float itemPrice, float totalPrice)
+        public OrderDetail(int id, int orderId, int foodId, string foodName, int quantity, float itemPrice, float totalPrice)
         {
+            this.orderItemId = id;
             this.orderId = orderId;
             this.foodId = foodId;
             this.foodName = foodName;
@@ -44,7 +47,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
 
         public override string ToString()
         {
-            return $"OrderID: {orderId}\nFoodID: {foodId}\nFoodName: {foodName}\nQuantity: {quantity}\nItemPrice:  {itemPrice}\nTotalPrice: {totalPrice}";
+            return $"ID: {orderItemId}\nOrderID: {orderId}\nFoodID: {foodId}\nFoodName: {foodName}\nQuantity: {quantity}\nItemPrice:  {itemPrice}\nTotalPrice: {totalPrice}";
         }
     }
 }
