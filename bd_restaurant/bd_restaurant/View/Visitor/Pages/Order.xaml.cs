@@ -28,7 +28,7 @@ namespace bd_restaurant.View.Visitor.Pages
         public Order()
         {
             InitializeComponent();
-
+            SetupTableData();
         }
 
         private void SetupTableData()
