@@ -33,7 +33,6 @@ namespace bd_restaurant.View.Visitor.Pages
 
         private void SetupTableData()
         {
-
             _orderDetails = RestaurantSQLConnection.GetLastOrderInfo(1);
             orderDataGrid.ItemsSource = _orderDetails;
         }

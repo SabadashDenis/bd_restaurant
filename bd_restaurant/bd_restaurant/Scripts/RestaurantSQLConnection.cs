@@ -28,12 +28,15 @@ namespace bd_restaurant.Scripts
 
         private static readonly string StaffExistsRequest = "SELECT dbo.CheckStaffExists(@Login)";
 
-        private static readonly string ValidateUser = "SELECT dbo.CheckUserCredentials(@Login, @Password)";
+        private static readonly string ValidateUserRequest = "SELECT dbo.CheckUserCredentials(@Login, @Password)";
 
-        private static readonly string DeleteOrderitem = "DeleteOrderItem";
+        private static readonly string DeleteOrdeItemRequest = "DeleteOrderItem";
 
-        private static readonly string CustomerLastOrderDetails = "SELECT * FROM dbo.GetLastOrderDetailsByCustomer(@CustomerID)";
+        private static readonly string CustomerLastOrderDetailsRequest = "SELECT * FROM dbo.GetLastOrderDetailsByCustomer(@CustomerID)";
 
+        private static readonly string AddFoodToOrderRequest = "AddFoodToOrder";
+
+        private static readonly string SelectFoodRequest = "SELECT * FROM FoodItem";
         #endregion
 
         private static readonly string Divider = "---------------------------------------";
@@ -134,7 +137,7 @@ namespace bd_restaurant.Scripts
 
         public static bool ValidateCredentials(string login, string password)
         {
-            using (SqlCommand command = new SqlCommand(ValidateUser, connection))
+            using (SqlCommand command = new SqlCommand(ValidateUserRequest, connection))
             {
                 try
                 {
@@ -159,7 +162,7 @@ namespace bd_restaurant.Scripts
             List<OrderDetail> orderDetails = new();
             DataTable dataTable = new DataTable();
 
-            SqlCommand command = new SqlCommand(CustomerLastOrderDetails, connection);
+            SqlCommand command = new SqlCommand(CustomerLastOrderDetailsRequest, connection);
             command.Parameters.AddWithValue("@CustomerID", customerId);
 
             try
@@ -200,7 +203,7 @@ namespace bd_restaurant.Scripts
 
         public static void DeleteOrderItem(int orderItemId)
         {
-            using (SqlCommand command = new SqlCommand(DeleteOrderitem, connection))
+            using (SqlCommand command = new SqlCommand(DeleteOrdeItemRequest, connection))
             {
                 try
                 {
@@ -215,6 +218,69 @@ namespace bd_restaurant.Scripts
                     Trace.WriteLine($"[SQL] Exception: {ex.Message}");
                 }
             }
+        }
+
+        public static void AddFoodToOrder(int orderId, int foodId, int quantity)
+        {
+            using (SqlCommand command = new SqlCommand(AddFoodToOrderRequest, connection))
+            {
+                try
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@OrderID", orderId);
+                    command.Parameters.AddWithValue("@FoodID", foodId);
+                    command.Parameters.AddWithValue("@Quantity", quantity);
+
+                    command.ExecuteNonQuery();
+
+                    Trace.WriteLine($"[SQL] Add food to order => FoodID[{foodId}] OrderID[{orderId}]\n{Divider}");
+                }
+                catch (SqlException ex)
+                {
+                    Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+                }
+            }
+        }
+
+        public static List<FoodItem> GetAllFoodItems()
+        {
+            List<FoodItem> foodItems = new();
+
+            SqlCommand command = new SqlCommand(SelectFoodRequest, connection);
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader != null)
+                    {
+                        Trace.WriteLine($"[SQL] Get food\n{Divider}");
+
+                        while (dataReader.Read())
+                        {
+                            int foodItemId = (int)dataReader[FoodItem.SQL_FoodItemID];
+                            string name = dataReader[FoodItem.SQL_Name].ToString() ?? String.Empty;
+                            int countValue = (int)dataReader[FoodItem.SQL_CountValue];
+                            string measure = dataReader[FoodItem.SQL_Measure].ToString() ?? String.Empty;
+                            float price = (float)(decimal)dataReader[FoodItem.SQL_Price];
+
+                            var foodItem = new FoodItem(foodItemId, name, countValue, measure, price);
+
+                            foodItems.Add(foodItem);
+
+                            Trace.WriteLine($"{foodItem.ToString()}\n{Divider}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+
+            return foodItems;
         }
     }
 }
