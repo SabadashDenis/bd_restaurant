@@ -24,6 +24,8 @@ namespace bd_restaurant.Scripts
         #region SQL Requests
         private static readonly string SelectCustomersRequest = "SELECT * FROM Customer";
 
+        private static readonly string SelectStaffsRequest = "SELECT * FROM Staff";
+
         private static readonly string CustomerExistsRequest = "SELECT dbo.CheckCustomerExists(@Login)";
 
         private static readonly string StaffExistsRequest = "SELECT dbo.CheckStaffExists(@Login)";
@@ -74,8 +76,9 @@ namespace bd_restaurant.Scripts
                             int customerId = (int)dataReader[Customer.SQL_CustomerId];
                             string name = dataReader[Customer.SQL_Name].ToString() ?? String.Empty;
                             string phone = dataReader[Customer.SQL_Phone].ToString() ?? String.Empty;
+                            string login = dataReader[Customer.SQL_Login].ToString() ?? String.Empty;
 
-                            var customer = new Customer(customerId, name, phone);
+                            var customer = new Customer(customerId, name, phone, login);
 
                             customers.Add(customer);
 
@@ -91,6 +94,48 @@ namespace bd_restaurant.Scripts
 
 
             return customers;
+        }
+
+        public static List<Staff> GetStaffs()
+        {
+            List<Staff> staffs = new();
+
+            SqlCommand command = new SqlCommand(SelectStaffsRequest, connection);
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader != null)
+                    {
+                        Trace.WriteLine($"[SQL] Get staffs\n{Divider}");
+
+                        while (dataReader.Read())
+                        {
+                            int staffId = (int)dataReader[Staff.SQL_StaffId];
+                            string name = dataReader[Staff.SQL_Name].ToString() ?? String.Empty;
+                            string jobTitle = dataReader[Staff.SQL_JobTitle].ToString() ?? String.Empty;
+                            string login = dataReader[Staff.SQL_Login].ToString() ?? String.Empty;
+                            string password = dataReader[Staff.SQL_Password].ToString() ?? String.Empty;
+                            string phone = dataReader[Staff.SQL_Phone].ToString() ?? String.Empty;
+                            string address = dataReader[Staff.SQL_Address].ToString() ?? String.Empty;
+
+                            var staff = new Staff(staffId, name, jobTitle, login, password, phone, address);
+
+                            staffs.Add(staff);
+
+                            Trace.WriteLine($"{staff.ToString()}\n{Divider}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+
+            return staffs;
         }
 
         public static bool IsCustomer(string login)
@@ -264,8 +309,9 @@ namespace bd_restaurant.Scripts
                             int countValue = (int)dataReader[FoodItem.SQL_CountValue];
                             string measure = dataReader[FoodItem.SQL_Measure].ToString() ?? String.Empty;
                             float price = (float)(decimal)dataReader[FoodItem.SQL_Price];
+                            string imageName = dataReader[FoodItem.SQL_ImageName].ToString() ?? String.Empty;
 
-                            var foodItem = new FoodItem(foodItemId, name, countValue, measure, price);
+                            var foodItem = new FoodItem(foodItemId, name, countValue, measure, price, imageName);
 
                             foodItems.Add(foodItem);
 

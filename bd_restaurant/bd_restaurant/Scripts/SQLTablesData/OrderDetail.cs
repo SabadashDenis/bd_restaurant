@@ -24,7 +24,9 @@ namespace bd_restaurant.Scripts.SQLTablesData
         private float itemPrice;
         private float totalPrice;
 
-        public string GetQuantity => $"{quantity} шт.";
+        public string GetQuantity => $"x {quantity}";
+
+        public string GetPriceInfo => $"{ItemPrice * Quantity} $";
 
         public int OrderItemId => orderItemId;
         public int OrderId => orderId;
@@ -47,7 +49,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
 
         public override string ToString()
         {
-            return $"ID: {orderItemId}\nOrderID: {orderId}\nFoodID: {foodId}\nFoodName: {foodName}\nQuantity: {quantity}\nItemPrice:  {itemPrice}\nTotalPrice: {totalPrice}";
+            return $"ID: {orderItemId}\nOrderID: {orderId}\nFoodID: {foodId}\nFoodName: {foodName}\nQuantity: {quantity}\nItemPrice:  {itemPrice}\nTotalPrice: {totalPrice}\n";
         }
     }
 }

@@ -44,8 +44,8 @@ namespace bd_restaurant.View.Visitor.Pages
 
             if (selectedItem != null)
             {
-                var lastOrder = RestaurantSQLConnection.GetLastOrderInfo(1).First();
-                RestaurantSQLConnection.AddFoodToOrder(lastOrder.OrderId, selectedItem.FoodItemId, 1);
+                var lastOrderId = RestaurantSQLConnection.GetLastOrderInfo(UserData.UserID).First().OrderId;
+                RestaurantSQLConnection.AddFoodToOrder(lastOrderId, selectedItem.FoodItemId, 1);
             }
         }
     }

@@ -46,18 +46,27 @@ namespace bd_restaurant
 
             if (RestaurantSQLConnection.ValidateCredentials(txtUser.Text, txtPass.Password))
             {
+                UserData.UserName = userLogin;
+
                 if (RestaurantSQLConnection.IsCustomer(txtUser.Text))
                 {
+                    UserData.UserID = RestaurantSQLConnection.GetCustomers().First(t => t.Login == userLogin).CustomerId;
+
                     VisitorWindow visitorWindow = new VisitorWindow();
                     visitorWindow.Show();
                     Hide();
                 }
                 else if (RestaurantSQLConnection.IsStaff(txtUser.Text))
                 {
+                    UserData.UserID = RestaurantSQLConnection.GetStaffs().First(t => t.Login == userLogin).StaffId;
+
                     StaffWindow staffWindow = new StaffWindow();
                     staffWindow.Show();
                     Hide();
                 }
+
+                
+               
             }
             else
             {

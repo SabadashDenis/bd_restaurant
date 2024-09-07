@@ -33,21 +33,18 @@ namespace bd_restaurant.View.Visitor.Pages
 
         private void SetupTableData()
         {
-            _orderDetails = RestaurantSQLConnection.GetLastOrderInfo(1);
+            _orderDetails = RestaurantSQLConnection.GetLastOrderInfo(UserData.UserID);
             orderDataGrid.ItemsSource = _orderDetails;
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if (button != null)
+            if (sender is Button)
             {
-                var order = button.DataContext as OrderDetail;
-                if (order != null)
+                if (((Button)sender).DataContext is OrderDetail order)
                 {
                     _orderDetails.Remove(order);
                     RestaurantSQLConnection.DeleteOrderItem(order.OrderItemId);
-                    Trace.WriteLine($"[Order Page] Delete OrderDetail Row {order.FoodName}\n");
                 }
             }
 
