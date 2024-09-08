@@ -1,4 +1,5 @@
 ﻿using bd_restaurant.Scripts;
+using bd_restaurant.Scripts.SQLTablesData;
 using bd_restaurant.View.Visitor.Pages;
 using System;
 using System.Collections.Generic;
@@ -21,27 +22,79 @@ namespace bd_restaurant.View
     /// </summary>
     public partial class VisitorWindow : Window
     {
+        private List<FoodItem> _foodItemsInCart = new();
+        public List<FoodItem> GetFoodInCart => _foodItemsInCart;
+
         public VisitorWindow()
         {
             InitializeComponent();
 
-            MainFrame.Content = new Dishes();
+            SetDishesPage();
+        }
+
+        private void SetDishesPage()
+        {
+            var dishesPage = new Dishes();
+
+            dishesPage.OnItemAddToCartClicked += AddFoodToCart;
+
+            MainFrame.Content = dishesPage;
+
+        }
+
+        private void AddFoodToCart(FoodItem food)
+        {
+            _foodItemsInCart.Add(food);
+        }
+
+        private void OnPayClicked()
+        {
+            RestaurantSQLConnection.CreateNewOrder(UserData.UserID, _foodItemsInCart);
+            _foodItemsInCart.Clear();
+            SetOrderPage();
+        }
+
+        private void OnRemoveClicked(OrderDetail orderDetail)
+        {
+            var targetFood = _foodItemsInCart.FirstOrDefault(t => t.Name == orderDetail.FoodName);
+
+            if (targetFood != null)
+            {
+                var index = _foodItemsInCart.IndexOf(targetFood);
+                _foodItemsInCart.RemoveAt(index);
+            }
+
+            SetOrderPage();
+        }
+
+        private void SetOrderPage()
+        {
+            var orderPage = new Order(_foodItemsInCart);
+
+            orderPage.OnPayClicked += OnPayClicked;
+            orderPage.OnRemoveClicked += OnRemoveClicked;
+
+            MainFrame.Content = orderPage;
+        }
+
+        private void SetProfilePage()
+        {
+            MainFrame.Content = new Profile();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Dishes();
+            SetDishesPage();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            var orderPage = new Order();
-            MainFrame.Content = orderPage;
+            SetOrderPage();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Profile();
+            SetProfilePage();
         }
     }
 }

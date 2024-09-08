@@ -6,13 +6,103 @@
         xmlns:local="clr-namespace:bd_restaurant.View"
         mc:Ignorable="d"
         Title="Restaurant" WindowState="Maximized"  d:DesignHeight="800" d:DesignWidth="1600">
+
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="BorderGradient" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#462AD8" Offset="0"/>
+            <GradientStop Color="#DA34AE" Offset="0.75"/>
+            <GradientStop Color="#8A16C1" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Color="#060531" Offset="0"/>
+            <GradientStop Color="#1B1448" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="InverseBackgroundGradient" StartPoint="1,0" EndPoint="0,1">
+            <GradientStop Color="#060531" Offset="0"/>
+            <GradientStop Color="#1B1448" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="FoodNameGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#8A16C1" Offset="0"/>
+            <GradientStop Color="#DA34AE" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BackgroundGradient}"/>
+            <Setter Property="Foreground" Value="{StaticResource BorderGradient}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderGradient}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#FFB0C4DE"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#FF8A2BE2"/>
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="False">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
     <Grid>
         <Frame x:Name="MainFrame" Margin="0,0,0,100" NavigationUIVisibility="Hidden"/>
 
-        <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Bottom">
-            <Button Content="Dishes" Width="520" Click="Button_Click"/>
-            <Button Content="Order" Width="520" Click="Button_Click_1"/>
-            <Button Content="Profile" Width="520" Click="Button_Click_2"/>
-        </StackPanel>
+        <Grid Height="100" VerticalAlignment="Bottom" Background="{StaticResource InverseBackgroundGradient}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Меню" FontSize="50" Click="Button_Click" 
+            Background="{StaticResource BackgroundGradient}" 
+            Foreground="{StaticResource BorderGradient}" 
+            Margin="5" 
+            Style="{StaticResource RoundedButtonStyle}"/>
+
+            <Button Grid.Column="1" Content="Корзина" FontSize="50" Click="Button_Click_1" 
+            Background="{StaticResource BackgroundGradient}" 
+            Foreground="{StaticResource BorderGradient}" 
+            Margin="5" 
+            Style="{StaticResource RoundedButtonStyle}"/>
+
+            <Button Grid.Column="2" Content="Профиль" FontSize="50" Click="Button_Click_2" 
+            Background="{StaticResource BackgroundGradient}" 
+            Foreground="{StaticResource BorderGradient}" 
+            Margin="5" 
+            Style="{StaticResource RoundedButtonStyle}"/>
+        </Grid>
     </Grid>
 </Window>

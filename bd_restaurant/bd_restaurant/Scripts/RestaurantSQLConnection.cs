@@ -34,7 +34,9 @@ namespace bd_restaurant.Scripts
 
         private static readonly string DeleteOrdeItemRequest = "DeleteOrderItem";
 
-        private static readonly string CustomerLastOrderDetailsRequest = "SELECT * FROM dbo.GetLastOrderDetailsByCustomer(@CustomerID)";
+        private static readonly string CustomerLastOrderDetailsRequest = "GetOrCreateLastOrderDetailsByCustomer";
+
+        private static readonly string CreateNewOrderRequest = "CreateNewOrder";
 
         private static readonly string AddFoodToOrderRequest = "AddFoodToOrder";
 
@@ -202,12 +204,13 @@ namespace bd_restaurant.Scripts
             return false;
         }
 
-        public static List<OrderDetail> GetLastOrderInfo(int customerId)
+/*        public static List<OrderDetail> GetLastOrderInfo(int customerId)
         {
             List<OrderDetail> orderDetails = new();
             DataTable dataTable = new DataTable();
 
             SqlCommand command = new SqlCommand(CustomerLastOrderDetailsRequest, connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@CustomerID", customerId);
 
             try
@@ -244,6 +247,37 @@ namespace bd_restaurant.Scripts
 
 
             return orderDetails;
+        }*/
+
+        public static void CreateNewOrder(int customerId, List<FoodItem> foodItems)
+        {
+            string foodIdsString = String.Empty;
+
+            foreach(var foodItem in foodItems)
+            {
+                foodIdsString += foodItem.FoodItemId.ToString() + ',';
+            }
+
+            foodIdsString.Remove(foodIdsString.Length - 1, 1);
+
+            List<OrderDetail> orderDetails = new();
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                SqlCommand command = new SqlCommand(CreateNewOrderRequest, connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@CustomerID", customerId);
+                command.Parameters.AddWithValue("@FoodIDs", foodIdsString);
+
+                int newOrderId = (int)command.ExecuteScalar();
+
+                Trace.WriteLine($"[SQL] Create new order. ID[{newOrderId}]\n{Divider}");         
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
         }
 
         public static void DeleteOrderItem(int orderItemId)

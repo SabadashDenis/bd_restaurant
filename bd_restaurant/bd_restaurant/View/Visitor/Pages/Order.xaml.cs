@@ -25,15 +25,32 @@ namespace bd_restaurant.View.Visitor.Pages
     {
         private List<OrderDetail> _orderDetails = new();
 
-        public Order()
+        public event Action OnPayClicked = delegate { };
+
+        public event Action<OrderDetail> OnRemoveClicked = delegate { };
+
+        public Order(List<FoodItem> foodItemsInCart)
         {
             InitializeComponent();
-            SetupTableData();
+            SetupTableData(foodItemsInCart);
         }
 
-        private void SetupTableData()
+        private void SetupTableData(List<FoodItem> foodItemsInCart)
         {
-            _orderDetails = RestaurantSQLConnection.GetLastOrderInfo(UserData.UserID);
+            _orderDetails.Clear();
+
+            foreach(var foodItem in foodItemsInCart)
+            {
+                if (_orderDetails.Any(t => t.FoodName == foodItem.Name))
+                {
+                    _orderDetails.First(t => t.FoodName == foodItem.Name).Quantity++;
+                }
+                else
+                {
+                    _orderDetails.Add(new OrderDetail(foodItem.Name, 1, foodItem.Price)); //добавляем новый OrderDetail
+                }
+            }
+
             orderDataGrid.ItemsSource = _orderDetails;
         }
 
@@ -41,14 +58,17 @@ namespace bd_restaurant.View.Visitor.Pages
         {
             if (sender is Button)
             {
-                if (((Button)sender).DataContext is OrderDetail order)
+                if (((Button)sender).DataContext is OrderDetail orderDetail)
                 {
-                    _orderDetails.Remove(order);
-                    RestaurantSQLConnection.DeleteOrderItem(order.OrderItemId);
+                    OnRemoveClicked.Invoke(orderDetail);
                 }
             }
+        }
 
-            SetupTableData();
+        private void PayButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnPayClicked.Invoke();
+            Trace.WriteLine($"[Order Page] Оплата заказа");
         }
     }
 }

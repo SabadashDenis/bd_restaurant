@@ -27,45 +27,43 @@
         <LinearGradientBrush x:Key="FoodNameGradient" StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Color="#8A16C1" Offset="0"/>
             <GradientStop Color="#DA34AE" Offset="1"/>
-
         </LinearGradientBrush>
 
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Green"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundGradient}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Width" Value="50"/>
             <Setter Property="Height" Value="50"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{StaticResource BackgroundGradient}" 
-                                BorderBrush="#DA34AE" 
-                                BorderThickness="3" 
-                                CornerRadius="10"
-                                x:Name="ButtonBorder">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        CornerRadius="10"
+                        x:Name="ButtonBorder">
                             <ContentPresenter HorizontalAlignment="Center" 
-                                              VerticalAlignment="Center"/>
+                                      VerticalAlignment="Center"/>
                         </Border>
-
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="RenderTransform">
+                                <Setter Property="RenderTransform">
                                     <Setter.Value>
                                         <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="False">
-                                <Setter TargetName="ButtonBorder" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
                         </ControlTemplate.Triggers>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -73,9 +71,9 @@
 
     </Page.Resources>
 
-    <Border CornerRadius="12">
-        <Border CornerRadius="10"                    
-            BorderThickness="2"
+    <Border CornerRadius="0">
+        <Border CornerRadius="0"                    
+            BorderThickness="1"
             Opacity="0.95"
             BorderBrush="{StaticResource BorderGradient}"
             Background="{StaticResource BackgroundGradient}">
@@ -99,10 +97,10 @@
                                     <TextBlock Text="{Binding Price, StringFormat='{}{0:C}'}" Foreground="#DA34AE" FontSize="26" FontWeight="Bold" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
 
                                     <Button VerticalAlignment="Bottom" 
-                                    HorizontalAlignment="Right" 
-                                    Margin="10"
-                                    Style="{StaticResource RoundedButtonStyle}"
-                                    Click="AddToCartButton_Click">
+                                            HorizontalAlignment="Right" 
+                                            Margin="10"
+                                            Style="{StaticResource RoundedButtonStyle}"
+                                            Click="AddToCartButton_Click">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="E:\Fork\bd_restaurant\bd_restaurant\bd_restaurant\Images\cart-icon.png" Width="30" Height="30" Margin="0,0,3,0"/>
                                         </StackPanel>

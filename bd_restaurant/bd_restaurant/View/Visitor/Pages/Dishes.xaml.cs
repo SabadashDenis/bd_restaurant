@@ -25,6 +25,8 @@ namespace bd_restaurant.View.Visitor.Pages
     {
         private List<FoodItem> _foodItems = new();
 
+        public event Action<FoodItem> OnItemAddToCartClicked = delegate { };
+
         public Dishes()
         {
             InitializeComponent();
@@ -44,8 +46,9 @@ namespace bd_restaurant.View.Visitor.Pages
 
             if (selectedItem != null)
             {
-                var lastOrderId = RestaurantSQLConnection.GetLastOrderInfo(UserData.UserID).First().OrderId;
-                RestaurantSQLConnection.AddFoodToOrder(lastOrderId, selectedItem.FoodItemId, 1);
+                OnItemAddToCartClicked.Invoke(selectedItem);
+                //var lastOrderId = RestaurantSQLConnection.GetLastOrderInfo(UserData.UserID).First().OrderId;
+                //RestaurantSQLConnection.AddFoodToOrder(lastOrderId, selectedItem.FoodItemId, 1);
             }
         }
     }
