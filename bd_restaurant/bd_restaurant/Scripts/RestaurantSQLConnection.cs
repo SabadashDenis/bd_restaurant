@@ -251,6 +251,9 @@ namespace bd_restaurant.Scripts
 
         public static void CreateNewOrder(int customerId, List<FoodItem> foodItems)
         {
+
+            if (foodItems.Count == 0) return;
+
             string foodIdsString = String.Empty;
 
             foreach(var foodItem in foodItems)

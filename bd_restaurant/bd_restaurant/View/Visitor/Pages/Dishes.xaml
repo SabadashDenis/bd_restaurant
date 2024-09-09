@@ -79,7 +79,11 @@
             Background="{StaticResource BackgroundGradient}">
 
             <Grid Margin="10">
-                <ItemsControl x:Name="FoodItemsControl">
+                
+                <Label Margin="0, -5, 0, 0" FontWeight="ExtraBlack" Foreground="Violet" Content="Меню" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Separator VerticalAlignment="Top" Background="Violet" Height="2" Margin="0, 50, 0, 0" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                <ItemsControl x:Name="FoodItemsControl" Margin="0,75,0,0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />

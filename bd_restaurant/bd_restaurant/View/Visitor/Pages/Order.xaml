@@ -129,8 +129,10 @@
                 </LinearGradientBrush>
             </Border.Background>
 
-            <Grid Margin="50, 75, 50, 50">
-                <Label Margin="0, -75, 0, 0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Grid Margin="10">
+                <Label Margin="0, -5, 0, 0" FontWeight="ExtraBlack" Foreground="Violet" Content="Корзина" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Separator VerticalAlignment="Top" Background="Violet" Height="2" Margin="0, 50, 0, 0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                
                 <DataGrid x:Name="orderDataGrid" Background="Transparent" Foreground="Violet" FontSize="20" FontWeight="Bold" 
                           AutoGenerateColumns="False" BorderThickness="0" IsReadOnly="True"
                           HeadersVisibility="None" GridLinesVisibility="None" Margin="0,0,10,0">
@@ -181,12 +183,12 @@
 
                 <Button Content="Оплатить" 
                         Style="{StaticResource PayButtonStyle}" 
-                        Width="120" 
+                        Width="150" 
                         Height="60"
                         FontSize="20"
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Bottom" 
-                        Margin="0,0,0,5"
+                        Margin="0"
                         Click="PayButton_Click"/>
             </Grid>
         </Border>
