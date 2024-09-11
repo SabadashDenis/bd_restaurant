@@ -22,6 +22,9 @@ namespace bd_restaurant.Scripts.SQLTablesData
         private float itemPrice;
         private float totalPrice;
 
+        public string GetQuantityInfo => $"x {quantity}";
+        public string GetPriceInfo => $"{ItemPrice * Quantity} $";
+
         public int OrderId => orderId;
         public DateTime OrderDate => orderDate;
         public int OrderItemId => orderItemId;
