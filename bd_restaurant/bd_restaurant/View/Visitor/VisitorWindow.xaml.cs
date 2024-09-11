@@ -80,6 +80,7 @@ namespace bd_restaurant.View
         private void SetProfilePage()
         {
             MainFrame.Content = new Profile();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

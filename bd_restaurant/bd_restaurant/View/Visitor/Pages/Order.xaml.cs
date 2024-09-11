@@ -47,7 +47,7 @@ namespace bd_restaurant.View.Visitor.Pages
                 }
                 else
                 {
-                    _orderDetails.Add(new OrderDetail(foodItem.Name, 1, foodItem.Price)); //добавляем новый OrderDetail
+                    _orderDetails.Add(new OrderDetail(foodItem.Name, foodItem.Price)); //добавляем новый OrderDetail
                 }
             }
 

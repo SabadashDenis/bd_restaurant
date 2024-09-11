@@ -34,7 +34,7 @@ namespace bd_restaurant.Scripts
 
         private static readonly string DeleteOrdeItemRequest = "DeleteOrderItem";
 
-        private static readonly string CustomerLastOrderDetailsRequest = "GetOrCreateLastOrderDetailsByCustomer";
+        private static readonly string GetOrderHistoryRequest = "GetAllOrderDetailsByCustomer";
 
         private static readonly string CreateNewOrderRequest = "CreateNewOrder";
 
@@ -204,12 +204,12 @@ namespace bd_restaurant.Scripts
             return false;
         }
 
-/*        public static List<OrderDetail> GetLastOrderInfo(int customerId)
+        public static List<OrderDetail> GetOrdersHistory(int customerId)
         {
             List<OrderDetail> orderDetails = new();
             DataTable dataTable = new DataTable();
 
-            SqlCommand command = new SqlCommand(CustomerLastOrderDetailsRequest, connection);
+            SqlCommand command = new SqlCommand(GetOrderHistoryRequest, connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@CustomerID", customerId);
 
@@ -223,16 +223,16 @@ namespace bd_restaurant.Scripts
 
                         while (dataReader.Read())
                         {
-                            int id = (int)dataReader[OrderDetail.SQL_OrderItemID];
-                            int orderId = (int)dataReader[OrderDetail.SQL_OrderID];
-                            int foodId = (int)dataReader[OrderDetail.SQL_FoodID];
-                            string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? String.Empty;
+                            int orderId = (int)dataReader[OrderDetail.SQL_OrderId];
+                            DateTime orderDate = (DateTime)dataReader[OrderDetail.SQL_OrderDate];
+                            int orderItemId = (int)dataReader[OrderDetail.SQL_OrderItemId];
+                            int foodId = (int)dataReader[OrderDetail.SQL_FoodId];
+                            string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? string.Empty;
                             int quantity = (int)dataReader[OrderDetail.SQL_Quantity];
-                            decimal itemPrice = (decimal)dataReader[OrderDetail.SQL_ItemPrice];
-                            decimal totalPrice = (decimal)dataReader[OrderDetail.SQL_TotalPrice];
+                            float itemPrice = (float)(decimal)dataReader[OrderDetail.SQL_ItemPrice];
+                            float totalPrice = (float)(decimal)dataReader[OrderDetail.SQL_TotalPrice];
 
-                            var orderDetail = new OrderDetail(id, orderId, foodId, foodName, quantity, (float)itemPrice, (float)totalPrice);
-
+                            var orderDetail = new OrderDetail(orderId, orderDate, orderItemId, foodId, foodName, quantity, itemPrice, totalPrice);
                             orderDetails.Add(orderDetail);
 
                             Trace.WriteLine($"{orderDetail.ToString()}\n{Divider}");
@@ -247,7 +247,7 @@ namespace bd_restaurant.Scripts
 
 
             return orderDetails;
-        }*/
+        }
 
         public static void CreateNewOrder(int customerId, List<FoodItem> foodItems)
         {
