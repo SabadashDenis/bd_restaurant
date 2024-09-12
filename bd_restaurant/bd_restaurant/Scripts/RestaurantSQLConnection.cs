@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -41,6 +42,7 @@ namespace bd_restaurant.Scripts
         private static readonly string AddFoodToOrderRequest = "AddFoodToOrder";
 
         private static readonly string SelectFoodRequest = "SELECT * FROM FoodItem";
+        private static string GetCustomerInfoRequest => $"SELECT * FROM Customer WHERE CustomerID = {UserData.UserID}";
         #endregion
 
         private static readonly string Divider = "---------------------------------------";
@@ -79,8 +81,10 @@ namespace bd_restaurant.Scripts
                             string name = dataReader[Customer.SQL_Name].ToString() ?? String.Empty;
                             string phone = dataReader[Customer.SQL_Phone].ToString() ?? String.Empty;
                             string login = dataReader[Customer.SQL_Login].ToString() ?? String.Empty;
+                            string email = dataReader[Customer.SQL_Email].ToString() ?? String.Empty;
+                            string avatarPath = dataReader[Customer.SQL_AvatarPath].ToString() ?? String.Empty;
 
-                            var customer = new Customer(customerId, name, phone, login);
+                            var customer = new Customer(customerId, name, phone, login, email, avatarPath);
 
                             customers.Add(customer);
 
@@ -96,6 +100,39 @@ namespace bd_restaurant.Scripts
 
 
             return customers;
+        }
+
+        public static Customer GetUserInfo()
+        {
+            SqlCommand command = new SqlCommand(GetCustomerInfoRequest, connection);
+
+            Customer customer = new(-1, String.Empty, String.Empty, String.Empty, String.Empty, String.Empty);
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader.Read())
+                    {
+                        int customerId = (int)dataReader[Customer.SQL_CustomerId];
+                        string name = dataReader[Customer.SQL_Name].ToString() ?? String.Empty;
+                        string phone = dataReader[Customer.SQL_Phone].ToString() ?? String.Empty;
+                        string login = dataReader[Customer.SQL_Login].ToString() ?? String.Empty;
+                        string email = dataReader[Customer.SQL_Email].ToString() ?? String.Empty;
+                        string avatarPath = dataReader[Customer.SQL_AvatarPath].ToString() ?? String.Empty;
+
+                        customer = new Customer(1, name, phone, login, email, avatarPath);
+
+                        Trace.WriteLine($"[SQL] Get user info: {customer.ToString()}\n{Divider}");
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+            return customer;
         }
 
         public static List<Staff> GetStaffs()
@@ -256,7 +293,7 @@ namespace bd_restaurant.Scripts
 
             string foodIdsString = String.Empty;
 
-            foreach(var foodItem in foodItems)
+            foreach (var foodItem in foodItems)
             {
                 foodIdsString += foodItem.FoodItemId.ToString() + ',';
             }
@@ -275,7 +312,7 @@ namespace bd_restaurant.Scripts
 
                 int newOrderId = (int)command.ExecuteScalar();
 
-                Trace.WriteLine($"[SQL] Create new order. ID[{newOrderId}]\n{Divider}");         
+                Trace.WriteLine($"[SQL] Create new order. ID[{newOrderId}]\n{Divider}");
             }
             catch (SqlException ex)
             {

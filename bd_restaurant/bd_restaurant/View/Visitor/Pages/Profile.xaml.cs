@@ -30,6 +30,7 @@ namespace bd_restaurant.View.Visitor.Pages
             InitializeComponent();
             SetupOrdersHistory();
             DataContext = this;
+            SetupProfile();
         }
 
         private void SetupOrdersHistory()
@@ -54,6 +55,12 @@ namespace bd_restaurant.View.Visitor.Pages
 
                 Orders.Add(orderContainer);
             }
+        }
+
+        public void SetupProfile()
+        {
+            var customer = RestaurantSQLConnection.GetUserInfo();
+            ProfileData.DataContext = customer;
         }
     }
 }
