@@ -41,7 +41,16 @@ namespace bd_restaurant.Scripts
 
         private static readonly string AddFoodToOrderRequest = "AddFoodToOrder";
 
+        private static readonly string SetupStaffForOrderRequest = "SetStaffIdForOrder";
+
         private static readonly string SelectFoodRequest = "SELECT * FROM FoodItem";
+
+        private static readonly string GetFreeOrdersRequest = "SELECT * FROM dbo.GetPendingOrders";
+
+        private static readonly string GetStaffOrdersRequest = "GetPendingOrdersByStaffId";
+
+        private static readonly string SetOrderReadyRequest = "SetOrderAsReady";
+
         private static string GetCustomerInfoRequest => $"SELECT * FROM Customer WHERE CustomerID = {UserData.UserID}";
         #endregion
 
@@ -284,6 +293,131 @@ namespace bd_restaurant.Scripts
 
 
             return orderDetails;
+        }
+
+        public static List<OrderDetail> GetFreeOrders()
+        {
+            List<OrderDetail> orderDetails = new();
+
+            SqlCommand command = new SqlCommand(GetFreeOrdersRequest, connection);
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader != null)
+                    {
+                        Trace.WriteLine($"[SQL] Get last order details\n{Divider}");
+
+                        while (dataReader.Read())
+                        {
+                            int orderId = (int)dataReader[OrderDetail.SQL_OrderId];
+                            DateTime orderDate = (DateTime)dataReader[OrderDetail.SQL_OrderDate];
+                            int orderItemId = (int)dataReader[OrderDetail.SQL_OrderItemId];
+                            int foodId = (int)dataReader[OrderDetail.SQL_FoodId];
+                            string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? string.Empty;
+                            int quantity = (int)dataReader[OrderDetail.SQL_Quantity];
+                            float itemPrice = (float)(decimal)dataReader[OrderDetail.SQL_ItemPrice];
+                            float totalPrice = (float)(decimal)dataReader[OrderDetail.SQL_TotalPrice];
+
+                            var orderDetail = new OrderDetail(orderId, orderDate, orderItemId, foodId, foodName, quantity, itemPrice, totalPrice);
+                            orderDetails.Add(orderDetail);
+
+                            Trace.WriteLine($"{orderDetail.ToString()}\n{Divider}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+
+            return orderDetails;
+        }
+
+        public static List<OrderDetail> GetStaffOrders(int staffId)
+        {
+            List<OrderDetail> orderDetails = new();
+
+            SqlCommand command = new SqlCommand(GetStaffOrdersRequest, connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@StaffId", staffId));
+
+            try
+            {
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    if (dataReader != null)
+                    {
+                        Trace.WriteLine($"[SQL] Get stass orders details\n{Divider}");
+
+                        while (dataReader.Read())
+                        {
+                            int orderId = (int)dataReader[OrderDetail.SQL_OrderId];
+                            DateTime orderDate = (DateTime)dataReader[OrderDetail.SQL_OrderDate];
+                            int orderItemId = (int)dataReader[OrderDetail.SQL_OrderItemId];
+                            int foodId = (int)dataReader[OrderDetail.SQL_FoodId];
+                            string foodName = dataReader[OrderDetail.SQL_FoodName].ToString() ?? string.Empty;
+                            int quantity = (int)dataReader[OrderDetail.SQL_Quantity];
+                            float itemPrice = (float)(decimal)dataReader[OrderDetail.SQL_ItemPrice];
+                            float totalPrice = (float)(decimal)dataReader[OrderDetail.SQL_TotalPrice];
+
+                            var orderDetail = new OrderDetail(orderId, orderDate, orderItemId, foodId, foodName, quantity, itemPrice, totalPrice);
+                            orderDetails.Add(orderDetail);
+
+                            Trace.WriteLine($"{orderDetail.ToString()}\n{Divider}");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+            }
+
+
+            return orderDetails;
+        }
+
+        public static void SetupStaffForOrder(int orderId, int staffId)
+        {
+            using (SqlCommand command = new SqlCommand(SetupStaffForOrderRequest, connection))
+            {
+                try
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@OrderId", orderId));
+                    command.Parameters.Add(new SqlParameter("@StaffId", staffId));
+                    command.ExecuteNonQuery();
+
+                    Trace.WriteLine($"[SQL] Set staff for order => StaffID[{staffId}] OrderID[{orderId}]\n{Divider}");
+                }
+                catch (SqlException ex)
+                {
+                    Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+                }
+            }
+        }
+
+        public static void SetOrderReady(int orderId)
+        {
+            using (SqlCommand command = new SqlCommand(SetOrderReadyRequest, connection))
+            {
+                try
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@OrderId", orderId));
+                    command.ExecuteNonQuery();
+
+                    Trace.WriteLine($"[SQL] Set order ready => OrderID[{orderId}]\n{Divider}");
+                }
+                catch (SqlException ex)
+                {
+                    Trace.WriteLine($"[SQL] Exception: {ex.Message}");
+                }
+            }
         }
 
         public static void CreateNewOrder(int customerId, List<FoodItem> foodItems)

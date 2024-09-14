@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace bd_restaurant.Scripts.SQLTablesData
 {
     public class OrderDetail
     {
+        public event Action IsCheckedChanged = delegate { };
+
         public static readonly string SQL_OrderId = "OrderID";
         public static readonly string SQL_OrderDate = "OrderDate";
         public static readonly string SQL_OrderItemId = "OrderItemID";
@@ -21,6 +24,18 @@ namespace bd_restaurant.Scripts.SQLTablesData
         private int quantity;
         private float itemPrice;
         private float totalPrice;
+
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                IsCheckedChanged.Invoke();
+            }
+        }
 
         public string GetQuantityInfo => $"x {quantity}";
         public string GetPriceInfo => $"{ItemPrice * Quantity} $";

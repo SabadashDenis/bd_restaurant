@@ -9,10 +9,14 @@ namespace bd_restaurant.Scripts.SQLTablesData
 {
     public class OrderContainer
     {
+        public event Action ReadyFoodChanged = delegate { };
+
         private int _orderId;
         private float _totalPrice;
 
         public int OrderID => _orderId;
+        public string GetOrderNumber => $"Заказ №{_orderId}";
+
         public float TotalPrice
         {
             get => _totalPrice;
@@ -34,6 +38,7 @@ namespace bd_restaurant.Scripts.SQLTablesData
             }
             else
             {
+                detail.IsCheckedChanged += () => ReadyFoodChanged.Invoke();
                 orderDetails.Add(detail);
             }
         }
