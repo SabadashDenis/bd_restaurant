@@ -25,6 +25,7 @@ namespace bd_restaurant
     {
         public MainWindow()
         {
+            InitializeComponent();
             ConnectDB();
         }
 
@@ -62,7 +63,7 @@ namespace bd_restaurant
 
                     StaffWindow staffWindow = new StaffWindow();
                     staffWindow.Show();
-                    Hide();
+                    Close();
                 }
 
                 

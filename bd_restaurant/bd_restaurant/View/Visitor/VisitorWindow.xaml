@@ -30,41 +30,37 @@
             <GradientStop Color="#DA34AE" Offset="1"/>
         </LinearGradientBrush>
 
-        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+        <Style x:Key="ExitButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource BackgroundGradient}"/>
-            <Setter Property="Foreground" Value="{StaticResource BorderGradient}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderGradient}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="ButtonBorder" 
-                        Background="{TemplateBinding Background}" 
+                        <Border Background="{TemplateBinding Background}" 
                         BorderBrush="{TemplateBinding BorderBrush}" 
                         BorderThickness="{TemplateBinding BorderThickness}" 
-                        CornerRadius="10">
+                        CornerRadius="10"
+                        x:Name="ButtonBorder">
                             <ContentPresenter HorizontalAlignment="Center" 
                                       VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="#FFB0C4DE"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="ButtonBorder" Property="Background" Value="#FF8A2BE2"/>
                                 <Setter Property="RenderTransform">
                                     <Setter.Value>
-                                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                                        <ScaleTransform ScaleX="1.05" ScaleY="1.05"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="False">
+                            <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="RenderTransform">
                                     <Setter.Value>
-                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
@@ -74,6 +70,46 @@
             </Setter>
         </Style>
 
+        <Style x:Key="NavBarBtnStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BackgroundGradient}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="500"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        CornerRadius="10"
+                                Padding="0,0,0,15"
+                        x:Name="ButtonBorder">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.02" ScaleY="1.02"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.97" ScaleY="0.97"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -87,22 +123,40 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="Меню" FontSize="50" Click="Button_Click" 
-            Background="{StaticResource BackgroundGradient}" 
-            Foreground="{StaticResource BorderGradient}" 
-            Margin="5" 
-            Style="{StaticResource RoundedButtonStyle}"/>
+                Background="{StaticResource BackgroundGradient}" 
+                Foreground="{StaticResource BorderGradient}" 
+                Margin="5" 
+                Style="{StaticResource NavBarBtnStyle}"/>
 
             <Button Grid.Column="1" Content="Корзина" FontSize="50" Click="Button_Click_1" 
-            Background="{StaticResource BackgroundGradient}" 
-            Foreground="{StaticResource BorderGradient}" 
-            Margin="5" 
-            Style="{StaticResource RoundedButtonStyle}"/>
+                Background="{StaticResource BackgroundGradient}" 
+                Foreground="{StaticResource BorderGradient}" 
+                Margin="5" 
+                Style="{StaticResource NavBarBtnStyle}"/>
 
             <Button Grid.Column="2" Content="Профиль" FontSize="50" Click="Button_Click_2" 
-            Background="{StaticResource BackgroundGradient}" 
-            Foreground="{StaticResource BorderGradient}" 
-            Margin="5" 
-            Style="{StaticResource RoundedButtonStyle}"/>
+                Background="{StaticResource BackgroundGradient}" 
+                Foreground="{StaticResource BorderGradient}" 
+                Margin="5" 
+                Style="{StaticResource NavBarBtnStyle}"/>
         </Grid>
+
+        <Button Click="LogoutButton_Click" 
+        Background="{StaticResource BackgroundGradient}" 
+        Foreground="{StaticResource BorderGradient}" 
+        Margin="10"
+        Style="{StaticResource ExitButtonStyle}"
+        HorizontalAlignment="Right" 
+        VerticalAlignment="Top" 
+        Width="40" 
+        Height="40">
+            <Image Source="E:\Fork\bd_restaurant\bd_restaurant\bd_restaurant\Images\logout.png" 
+           Stretch="Uniform" 
+           Width="20" 
+           Height="20" 
+           Margin="2,0,0,0"
+           HorizontalAlignment="Center" 
+           VerticalAlignment="Center"/>
+        </Button>
     </Grid>
 </Window>
