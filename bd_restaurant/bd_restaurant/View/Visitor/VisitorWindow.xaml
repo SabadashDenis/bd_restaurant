@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:bd_restaurant.View"
         mc:Ignorable="d"
-        Title="Restaurant" WindowState="Maximized"  d:DesignHeight="800" d:DesignWidth="1600">
+        Title="Customer" WindowState="Maximized"  d:DesignHeight="800" d:DesignWidth="1600">
 
 
     <Window.Resources>
