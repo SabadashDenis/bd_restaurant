@@ -49,5 +49,19 @@ namespace bd_restaurant.View.Visitor.Pages
                 OnItemAddToCartClicked.Invoke(selectedItem);
             }
         }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var scrollViewer = sender as ScrollViewer;
+            if (scrollViewer != null)
+            {
+                if (e.Delta > 0)
+                    scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - 20); // Прокрутка вверх
+                else
+                    scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + 20); // Прокрутка вниз
+
+                e.Handled = true; // Отменяем дальнейшую обработку события
+            }
+        }
     }
 }
